@@ -5,13 +5,13 @@
 
 set -e
 set -x
- 
+
 REMOTE_PATH="$HOME/public_html/imtx.me"
 PROJECT_NAME="imtx"
-LOCAL_PATH="$HOME/Dropbox/$PROJECT_NAME-backup"
+LOCAL_PATH="$HOME/Backup/$PROJECT_NAME-backup"
 PRE=$PROJECT_NAME-`date +%F`
 KERNEL=`uname -s`
- 
+
 if [ ! -e $LOCAL_PATH/$PROJECT_NAME ]
 then
 	mkdir -p $LOCAL_PATH/$PROJECT_NAME
@@ -47,5 +47,5 @@ cd $LOCAL_PATH
 
 mysqldump -u${DB_USER} -p${DB_PASSWORD} $DB_NAME | gzip > $PRE.sql.gz
 
-s3cmd put $LOCAL_PATH/$PRE.tar.gz s3://imtx/
-s3cmd put $LOCAL_PATH/$PRE.sql.gz s3://imtx/
+imtx-backup.rb $LOCAL_PATH/$PRE.tar.gz
+imtx-backup.rb $LOCAL_PATH/$PRE.sql.gz
