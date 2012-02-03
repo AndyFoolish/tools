@@ -47,5 +47,5 @@ cd $LOCAL_PATH
 
 mysqldump -u${DB_USER} -p${DB_PASSWORD} $DB_NAME | gzip > $PRE.sql.gz
 
-imtx-backup.rb $LOCAL_PATH/$PRE.tar.gz
-imtx-backup.rb $LOCAL_PATH/$PRE.sql.gz
+web-backup.rb $LOCAL_PATH/$PRE.tar.gz
+web-backup.rb $LOCAL_PATH/$PRE.sql.gz

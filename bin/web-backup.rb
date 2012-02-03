@@ -3,12 +3,19 @@
 # This references the Dropbox SDK gem install with "gem install dropbox-sdk"
 require 'dropbox_sdk'
 
-APP_KEY = '1xulcq1r36gagza'
-APP_SECRET = 'aqn8yrt86qf7ufc'
+config_path = File.expand_path('~/.web-backup')
+app_key_path = File.expand_path('~/.web-backup.key')
+
+if File.exist?(app_key_path)
+  APP_KEY, APP_SECRET = open(app_key_path).read().split()
+else
+  puts "No key to use"
+  exit(1)
+end
+
 ACCESS_TYPE = :app_folder  #The two valid values here are :app_folder and :dropbox
 
 session = DropboxSession.new(APP_KEY, APP_SECRET)
-config_path = File.expand_path('~/.imtx-backup')
 
 if File.exist?(config_path)
   key, secret = open(config_path).read().split()

@@ -1,31 +1,30 @@
 #!/bin/sh
-# UTCOM Backup scripts
-# To easily backup UTCOM Project
+# Django project backup script
 # Author: TualatriX
 
 set -e
 set -x
 
-REMOTE_PATH="$HOME/public_html/imtx.me"
+SOURCE_PATH="$HOME/public_html/imtx.me"
 PROJECT_NAME="imtx"
-LOCAL_PATH="$HOME/Backup/$PROJECT_NAME-backup"
+DEST_PATH="$HOME/Backup/$PROJECT_NAME-backup"
 PRE=$PROJECT_NAME-`date +%F`
 KERNEL=`uname -s`
 
-if [ ! -e $LOCAL_PATH/$PROJECT_NAME ]
+if [ ! -e $DEST_PATH/$PROJECT_NAME ]
 then
-	mkdir -p $LOCAL_PATH/$PROJECT_NAME
+    mkdir -p $DEST_PATH/$PROJECT_NAME
 fi
 
 
-cd $REMOTE_PATH; tar cf - --exclude '.git' $PROJECT_NAME | gzip > $LOCAL_PATH/$PRE.tar.gz
+cd $SOURCE_PATH; tar cf - --exclude '.git' $PROJECT_NAME | gzip > $DEST_PATH/$PRE.tar.gz
 
-cd $LOCAL_PATH
+cd $DEST_PATH
 
 tar zxvf $PRE.tar.gz $PROJECT_NAME/$PROJECT_NAME/local_settings.py
 touch $PROJECT_NAME/$PROJECT_NAME/__init__.py
 
-cd $LOCAL_PATH/$PROJECT_NAME
+cd $DEST_PATH/$PROJECT_NAME
 
 if [ -f $PROJECT_NAME/local_settings.py ];then
     if [ $KERNEL = "Darwin" ]; then
@@ -43,9 +42,9 @@ else
     exit 1
 fi
 
-cd $LOCAL_PATH
+cd $DEST_PATH
 
 mysqldump -u${DB_USER} -p${DB_PASSWORD} $DB_NAME | gzip > $PRE.sql.gz
 
-imtx-backup.rb $LOCAL_PATH/$PRE.tar.gz
-imtx-backup.rb $LOCAL_PATH/$PRE.sql.gz
+web-backup.rb $DEST_PATH/$PRE.sql.gz
+web-backup.rb $DEST_PATH/$PRE.tar.gz
