@@ -14,7 +14,7 @@ KERNEL=`uname -s`
  
 if [ ! -e $LOCAL_PATH/$PROJECT_NAME ]
 then
-	mkdir -p $LOCAL_PATH/$PROJECT_NAME
+    mkdir -p $LOCAL_PATH/$PROJECT_NAME
 fi
 
 
@@ -34,9 +34,9 @@ if [ -f $PROJECT_NAME/local_settings.py ];then
         sed -i '/global_setting/d' $PROJECT_NAME/local_settings.py
     fi
 
-    DB_NAME=`python -c "import $PROJECT_NAME.local_settings;print $PROJECT_NAME.local_settings.DATABASE_NAME"`
-    DB_USER=`python -c "import $PROJECT_NAME.local_settings;print $PROJECT_NAME.local_settings.DATABASE_USER"`
-    DB_PASSWORD=`python -c "import $PROJECT_NAME.local_settings;print $PROJECT_NAME.local_settings.DATABASE_PASSWORD"`
+    DB_NAME=`python -c "import $PROJECT_NAME.local_settings;print $PROJECT_NAME.local_settings.DATABASES['default']['NAME']"`
+    DB_USER=`python -c "import $PROJECT_NAME.local_settings;print $PROJECT_NAME.local_settings.DATABASES['default']['USER']"`
+    DB_PASSWORD=`python -c "import $PROJECT_NAME.local_settings;print $PROJECT_NAME.local_settings.DATABASES['default']['PASSWORD']"`
     rm -r $PROJECT_NAME
 else
     echo "Something wrong ..."
@@ -47,5 +47,5 @@ cd $LOCAL_PATH
 
 mysqldump -u${DB_USER} -p${DB_PASSWORD} $DB_NAME | gzip > $PRE.sql.gz
 
-s3cmd put $LOCAL_PATH/$PRE.tar.gz s3://imtx/
-s3cmd put $LOCAL_PATH/$PRE.sql.gz s3://imtx/
+imtx-backup.rb $LOCAL_PATH/$PRE.tar.gz
+imtx-backup.rb $LOCAL_PATH/$PRE.sql.gz
