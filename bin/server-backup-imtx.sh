@@ -46,5 +46,5 @@ cd $DEST_PATH
 
 mysqldump -u${DB_USER} -p${DB_PASSWORD} $DB_NAME | gzip > $PRE.sql.gz
 
-web-backup.rb $DEST_PATH/$PRE.sql.gz
-web-backup.rb $DEST_PATH/$PRE.tar.gz
+$HOME/Sources/tools/bin/web-backup.rb $DEST_PATH/$PRE.sql.gz
+$HOME/Sources/tools/bin/web-backup.rb $DEST_PATH/$PRE.tar.gz
