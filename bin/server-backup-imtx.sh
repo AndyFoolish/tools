@@ -11,6 +11,12 @@ DEST_PATH="$HOME/Backup/$PROJECT_NAME-backup"
 PRE=$PROJECT_NAME-`date +%F`
 KERNEL=`uname -s`
 
+export PATH=$HOME/Sources/tools/bin:$PATH
+# ruby
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+[[ -s "/etc/profile.d/rvm.sh" ]] && . "/etc/profile.d/rvm.sh"  # This loads RVM into a shell session.
+
+
 if [ ! -e $DEST_PATH/$PROJECT_NAME ]
 then
     mkdir -p $DEST_PATH/$PROJECT_NAME
@@ -46,5 +52,5 @@ cd $DEST_PATH
 
 mysqldump -u${DB_USER} -p${DB_PASSWORD} $DB_NAME | gzip > $PRE.sql.gz
 
-$HOME/Sources/tools/bin/web-backup.rb $DEST_PATH/$PRE.sql.gz
-$HOME/Sources/tools/bin/web-backup.rb $DEST_PATH/$PRE.tar.gz
+web-backup.rb $DEST_PATH/$PRE.sql.gz
+web-backup.rb $DEST_PATH/$PRE.tar.gz

@@ -11,6 +11,11 @@ PROJECT_NAME="utcom"
 LOCAL_PATH="$HOME/Dropbox/$PROJECT_NAME-backup"
 PRE=$PROJECT_NAME-`date +%F`
 KERNEL=`uname -s`
+
+export PATH=$HOME/Sources/tools/bin:$PATH
+# ruby
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+[[ -s "/etc/profile.d/rvm.sh" ]] && . "/etc/profile.d/rvm.sh"  # This loads RVM into a shell session.
  
 if [ ! -e $LOCAL_PATH/$PROJECT_NAME ]
 then
@@ -47,5 +52,5 @@ cd $LOCAL_PATH
 
 mysqldump -u${DB_USER} -p${DB_PASSWORD} $DB_NAME | gzip > $PRE.sql.gz
 
-$HOME/Sources/tools/bin/web-backup.rb $LOCAL_PATH/$PRE.tar.gz
-$HOME/Sources/tools/bin/web-backup.rb $LOCAL_PATH/$PRE.sql.gz
+web-backup.rb $LOCAL_PATH/$PRE.tar.gz
+web-backup.rb $LOCAL_PATH/$PRE.sql.gz
