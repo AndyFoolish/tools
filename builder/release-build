@@ -21,14 +21,13 @@ fi
 
 VERSION=$2
 DISTRO=$3
-MKLOG=$PWD/mkchangelog
 
 SRC_ROOT=$HOME/Sources/$APPLICATION
 BUILD_ROOT=$HOME/Sources/$APPLICATION/dist
 BUILD_DIR=$BUILD_ROOT/$APPLICATION-$VERSION
 TARBALL=$BUILD_ROOT/$APPLICATION-$VERSION.tar.gz
 ORIGBALL=$BUILD_ROOT/${APPLICATION}_${VERSION}.orig.tar.gz
-CHANGELOG=$BUILD_DIR/debian/changelog
+CHANGELOG=$HOME/Sources/ubuntu-tweak-0.7.x-packaging/debian/changelog
 
 CLEAN_OLD() {
 	rm -rf $BUILD_DIR
@@ -37,35 +36,28 @@ CLEAN_OLD() {
 CLEAN_OLD
 
 INFO() {
-	echo $APPLICATION
-	echo $VERSION
-	echo $DISTRO
-	echo $SRC_ROOT
-	echo $BUILD_DIR
+	echo "Building $APPLICATION-$VERSION for $DISTRO at $BUILD_DIR"
 }
 INFO
 
 cd $SRC_ROOT
 
 if [ ! -e $ORIGBALL ];then
-	python setup.py sdist
+	python setup.py sdist > /dev/null
 	mv -v $TARBALL $ORIGBALL
-	NO_SOUCE_UPLOAD=1
 fi
 
 tar zxf $ORIGBALL -C $BUILD_ROOT/
-cp -vr $SRC_ROOT/debian $BUILD_DIR/debian
+cp -r $SRC_ROOT/debian $BUILD_DIR/debian
 
 REPLACE=`head -1 $CHANGELOG | grep $DISTRO`
 
 if [ ! -n "$REPLACE" ]; then
 	echo "Replace the maverick with $DISTRO"
-	sed -i "1s/natty/$DISTRO/g" $CHANGELOG
+	sed -i "1s/precise/$DISTRO/g" $CHANGELOG
 fi
 
+cp -rv $CHANGELOG $BUILD_DIR/debian/changelog
+
 cd $BUILD_DIR
-if [ -n "$NO_SOUCE_UPLOAD" ];then
-	debuild -S -sa
-else
-	debuild -S -sd
-fi
+debuild -S -sa > /dev/null
