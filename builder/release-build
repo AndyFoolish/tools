@@ -30,34 +30,35 @@ ORIGBALL=$BUILD_ROOT/${APPLICATION}_${VERSION}.orig.tar.gz
 CHANGELOG=$HOME/Sources/ubuntu-tweak-0.7.x-packaging/debian/changelog
 
 CLEAN_OLD() {
-	rm -rf $BUILD_DIR
+    rm -rf $BUILD_DIR
+    rm -rf $SRC_ROOT/debian
+    cp -r $HOME/Sources/ubuntu-tweak-0.7.x-packaging/debian $SRC_ROOT
 }
 
 CLEAN_OLD
 
 INFO() {
-	echo "Building $APPLICATION-$VERSION for $DISTRO at $BUILD_DIR"
+    echo "Building $APPLICATION-$VERSION for $DISTRO at $BUILD_DIR"
 }
 INFO
 
 cd $SRC_ROOT
 
 if [ ! -e $ORIGBALL ];then
-	python setup.py sdist > /dev/null
-	mv -v $TARBALL $ORIGBALL
+    python setup.py sdist > /dev/null
+    mv -v $TARBALL $ORIGBALL
 fi
 
 tar zxf $ORIGBALL -C $BUILD_ROOT/
+
 cp -r $SRC_ROOT/debian $BUILD_DIR/debian
 
 REPLACE=`head -1 $CHANGELOG | grep $DISTRO`
 
 if [ ! -n "$REPLACE" ]; then
-	echo "Replace the maverick with $DISTRO"
-	sed -i "1s/precise/$DISTRO/g" $CHANGELOG
+    echo "Replace the precise with $DISTRO"
+    sed -i "1s/precise/$DISTRO/g" $BUILD_DIR/debian/changelog
 fi
-
-cp -rv $CHANGELOG $BUILD_DIR/debian/changelog
 
 cd $BUILD_DIR
 debuild -S -sa > /dev/null
