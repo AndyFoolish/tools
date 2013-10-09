@@ -47,7 +47,7 @@ system("cd #{project_root} && cp -r debian/#{$arch}/abyssws #{httpd_path}")
 system("unzip #{source_path} -d #{project_root}")
 
 system("cd #{project_root} && git checkout debian/changelog")
-system("cd #{project_root} && dch -v 6.1-1~r#{$revision} 'New Upstream Version'")
+system("cd #{project_root} && dch -v 6.4-1~r#{$revision} 'New Upstream Version'")
 
 system("cd #{project_root} && debuild")
 name = `cd #{source_root} && ls pagico_*~r#{$revision}*.deb`.strip
