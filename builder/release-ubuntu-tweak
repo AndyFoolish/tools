@@ -6,10 +6,6 @@ APP=ubuntu-tweak
 
 VERSION=`cd ~/Sources/ubuntu-tweak && python -c 'import ubuntutweak;print ubuntutweak.__version__'`
 
-BUILD_ROOT=$HOME/Sources/$APP/dist
-
-rm -rf $BUILD_ROOT
-
 if [ ! -n "$1" ];then
     echo "Please enter the codename to build"
     exit 1
