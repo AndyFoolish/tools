@@ -3,14 +3,15 @@
 require 'optparse'
 require 'fileutils'
 
-if ARGV.length < 3
-    p 'Please Enter -m mode -r revision'
+if ARGV.length < 6
+    p 'Please Enter -m mode -v version -r revision'
     exit(1)
 end
 
 OptionParser.new do |o|
   $arch = `uname -i`.strip
   o.on('-m MODE') { |mode| $mode = mode }
+  o.on('-v VERSION') { |version| $version = version }
   o.on('-r REVISION') { |revision| $revision = revision }
   o.on('-h') { puts o; exit }
   o.parse!
@@ -47,7 +48,7 @@ system("cd #{project_root} && cp -r debian/#{$arch}/abyssws #{httpd_path}")
 system("unzip #{source_path} -d #{project_root}")
 
 system("cd #{project_root} && git checkout debian/changelog")
-system("cd #{project_root} && dch -v 6.4-1~r#{$revision} 'New Upstream Version'")
+system("cd #{project_root} && dch -v #{$version}-1~r#{$revision} 'New Upstream Version'")
 
 system("cd #{project_root} && debuild")
 name = `cd #{source_root} && ls pagico_*~r#{$revision}*.deb`.strip
