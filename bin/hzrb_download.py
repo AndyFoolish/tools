@@ -7,11 +7,11 @@ targets = []
 day = '27'
 date = '201505%s' % day
 
-front_page_template = 'http://hzdaily.hangzhou.com.cn/dskb/page/3/2015-05/%s/01/2015052701_pdf.pdf' % day
-page_template = 'http://hzdaily.hangzhou.com.cn/dskb/page/3/2015-05/%s' %day + '/%(page)s/%(date)s%(page)s_pdf.pdf'
+front_page_template = 'http://hzdaily.hangzhou.com.cn/hzrb/page/1/2015-05/%s/01/2015052701_pdf.pdf' % day
+page_template = 'http://hzdaily.hangzhou.com.cn/hzrb/page/1/2015-05/%s' %day + '/%(page)s/%(date)s%(page)s_pdf.pdf'
 
-a_pages = range(2, 33)
-b_pages = range(1, 17)
+a_pages = range(2, 17)
+b_pages = range(1, 9)
 
 os.system('wget %s' % front_page_template)
 
@@ -28,7 +28,7 @@ for page in b_pages:
         pdf_files.append('%sB%02d_pdf.pdf' % (date,page))
 
 print(pdf_files)
-os.system('pdftk %s cat output dskb_issue_%s.pdf' % (' '.join(pdf_files), date))
+os.system('pdftk %s cat output hzrb_issue_%s.pdf' % (' '.join(pdf_files), date))
 
 for pdf_file in pdf_files:
     os.system('rm %s' % pdf_file)
