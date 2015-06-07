@@ -4,7 +4,7 @@ import os
 
 targets = []
 
-day = '21'
+day = '28'
 date = '201505%s' % day
 
 page_template = 'http://hzdaily.hangzhou.com.cn/dszb/page/545/2015-05/%s' %day + '/%(page)s/%(date)s%(page)s_pdf.pdf'

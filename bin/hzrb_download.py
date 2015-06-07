@@ -1,21 +1,23 @@
 #!/usr/bin/env python
 
 import os
+import datetime
 
 targets = []
 
-day = '27'
-date = '201505%s' % day
+month = '%02d' % datetime.datetime.now().month
+day = '%02d' % datetime.datetime.now().day
+date = '2015%s%s' % (month, day)
 
-front_page_template = 'http://hzdaily.hangzhou.com.cn/hzrb/page/1/2015-05/%s/01/2015052701_pdf.pdf' % day
-page_template = 'http://hzdaily.hangzhou.com.cn/hzrb/page/1/2015-05/%s' %day + '/%(page)s/%(date)s%(page)s_pdf.pdf'
+front_page_template = 'http://hzdaily.hangzhou.com.cn/hzrb/page/1/2015-%s/%s/01/2015%s%s01_pdf.pdf' % (month, day, month, day)
+page_template = 'http://hzdaily.hangzhou.com.cn/hzrb/page/1/2015-%s/%s' % (month, day) + '/%(page)s/%(date)s%(page)s_pdf.pdf'
 
-a_pages = range(2, 17)
-b_pages = range(1, 9)
+a_pages = range(2, 13)
+b_pages = range(1, 18)
 
 os.system('wget %s' % front_page_template)
 
-pdf_files = ['201505%s01_pdf.pdf' % day]
+pdf_files = ['2015%s%s01_pdf.pdf' % (month, day)]
 
 for page in a_pages:
     return_code = os.system('wget %s' % page_template % {'page': 'A%02d' % page, 'date': date })

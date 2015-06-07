@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 import os
+import datetime
 
 targets = []
 
-day = '27'
+day = str(datetime.datetime.now().day)
 date = '201505%s' % day
 
 page_template = 'http://hzdaily.hangzhou.com.cn/cb/page/1681/2015-05/%s' %day + '/%(page)s/%(date)s%(page)s_pdf.pdf'
