@@ -7,11 +7,11 @@ import sys
 targets = []
 
 month = '%02d' % datetime.datetime.now().month
+day = '%02d' % datetime.datetime.now().day
 
-if len(sys.argv) == 2:
-    day = sys.argv[1]
-else:
-    day = '%02d' % datetime.datetime.now().day
+if len(sys.argv) == 3:
+    month = sys.argv[1]
+    day = sys.argv[2]
 
 date = '2015%s%s' % (month, day)
 

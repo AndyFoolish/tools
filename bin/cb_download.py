@@ -5,10 +5,12 @@ import datetime
 
 targets = []
 
-day = str(datetime.datetime.now().day)
-date = '201505%s' % day
+month = '%02d' % datetime.datetime.now().month
 
-page_template = 'http://hzdaily.hangzhou.com.cn/cb/page/1681/2015-05/%s' %day + '/%(page)s/%(date)s%(page)s_pdf.pdf'
+day = str(datetime.datetime.now().day)
+date = '2015%s%s' % (month, day)
+
+page_template = 'http://hzdaily.hangzhou.com.cn/cb/page/1681/2015-%s/%s' % (month, day) + '/%(page)s/%(date)s%(page)s_pdf.pdf'
 
 pages = range(1, 25)
 
