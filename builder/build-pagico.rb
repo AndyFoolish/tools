@@ -42,7 +42,7 @@ if !File.exist? (File.expand_path("~/Sources/pagico/debian/#{$arch}"))
 end
 
 system("cd #{project_root} && cp -r debian/#{$arch}/PHP #{httpd_path}")
-system("cd #{project_root} && cp -r debian/#{$arch}/ioncube_loader_lin_5.3.so #{httpd_path}")
+system("cd #{project_root} && cp -r debian/#{$arch}/ioncube_loader_lin_x86-64_7.0b8.so #{httpd_path}")
 system("cd #{project_root} && cp -r debian/#{$arch}/abyssws #{httpd_path}")
 
 system("unzip #{source_path} -d #{project_root}")
