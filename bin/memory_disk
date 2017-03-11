@@ -1,0 +1,18 @@
+#!/bin/sh
+ramfs_size_mb=2048
+mount_point=$HOME/Library/Developer/Xcode/DerivedData
+
+mkramdisk() {
+  ramfs_size_sectors=$((${ramfs_size_mb}*1024*1024/512))
+  ramdisk_dev=`hdid -nomount ram://${ramfs_size_sectors}`
+
+  newfs_hfs -v 'DerivedData' ${ramdisk_dev}
+  mkdir -p ${mount_point}
+  diskutil mount -mountPoint ${mount_point} ${ramdisk_dev}
+
+  echo "remove with:"
+  echo "umount ${mount_point}"
+  echo "diskutil eject ${ramdisk_dev}"
+}
+
+mkramdisk
